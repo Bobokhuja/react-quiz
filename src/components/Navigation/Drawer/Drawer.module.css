@@ -37,6 +37,6 @@
 }
 
 .Drawer li a:hover,
-.Drawer li a:active  {
+.Drawer li a.active  {
   opacity: .7;
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import ActiveQuiz from '../../components/ActiveQuiz/ActiveQuiz'
 import FinishedQuiz from '../../components/ActiveQuiz/FinishedQuiz/FinishedQuiz'
 import classes from './Quiz.module.css'
@@ -33,6 +34,7 @@ function Quiz(props) {
     }
   ])
   const [results, setResults] = useState({})
+  const {id} = useParams()
 
   const isQuizFinished = () => {
     return activeQuestion + 1 === quiz.length
@@ -83,12 +85,12 @@ function Quiz(props) {
     setAnswerState(null)
     setResults({})
   }
+  console.log(id)
 
   return (
     <div className={classes.Quiz}>
       <div className={classes.QuizWrapper}>
         <h1>Ответьте на вопросы</h1>
-
         {
           isFinished
             ? <FinishedQuiz

@@ -3,10 +3,10 @@ import classes from './QuizCreator.module.css'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import { useState } from 'react'
-import {createControl} from '../../form/formFramework'
+import {createControl, validate, validateForm} from '../../form/formFramework'
 import Select from "../../components/UI/Select/Select"
 
-function createFormControl() {
+function createFormControls() {
   return {
     question: createControl({
       label: 'Введите вопрос',
@@ -29,23 +29,55 @@ function createOptionControl(number) {
 
 function QuizCreator(props) {
   const [quiz, setQuiz] = useState([])
-  const [formControls, setFormControls] = useState(createFormControl())
+  const [formControls, setFormControls] = useState(createFormControls())
   const [rightAnswerId, setRightAnswerId] = useState(1)
+  const [isFormValid, setIsFormValid] = useState(false)
 
   const submitHandler = event => {
     event.preventDefault()
   }
 
-  const addQuestionHandler = () => {
+  const addQuestionHandler = event => {
+    event.preventDefault()
+    const copyQuiz = quiz.concat()
+    const id = copyQuiz.length + 1
+    const {question, option1, option2, option3, option4} = formControls
+    const questionItem = {
+      question: question.value,
+      id,
+      rightAnswerId,
+      answers: [
+        {text: option1.value, id: option1.id},
+        {text: option2.value, id: option2.id},
+        {text: option3.value, id: option3.id},
+        {text: option4.value, id: option4.id},
+      ]
+    }
 
+    copyQuiz.push(questionItem)
+    setQuiz(copyQuiz)
+    setIsFormValid(false)
+    setRightAnswerId(1)
+    setFormControls(createFormControls())
   }
 
-  const createQuizHandler = () => {
-
+  const createQuizHandler = event => {
+    event.preventDefault()
+    console.log(quiz)
+  //  TODO: server
   }
 
   const changeHandler = (value, controlName) => {
+    const copyFormControls = {...formControls}
+    const control = {...copyFormControls[controlName]}
 
+    control.touched = true
+    control.value = value
+    control.valid = validate(control.value, control.validation)
+
+    copyFormControls[controlName] = control
+    setFormControls(copyFormControls)
+    setIsFormValid(validateForm(copyFormControls))
   }
 
   const renderControls = () => {
@@ -97,12 +129,14 @@ function QuizCreator(props) {
           <Button
             type='primary'
             onClick={addQuestionHandler}
+            disabled={!isFormValid}
           >
             Добавить вопрос
           </Button>
           <Button
             type='success'
             onClick={createQuizHandler}
+            disabled={quiz.length === 0}
           >
             Создать тест
           </Button>

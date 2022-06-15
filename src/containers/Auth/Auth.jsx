@@ -3,6 +3,7 @@ import classes from './Auth.module.css'
 import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import is from 'is_js'
+import axios from 'axios'
 
 function Auth(props) {
 
@@ -42,8 +43,14 @@ function Auth(props) {
 
   }
 
-  const registerHandler = () => {
-
+  const registerHandler = async () => {
+    const authData = {
+      email: formControls.email.value,
+      password: formControls.password.value,
+    }
+    try {
+      const responce = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', )
+    }
   }
 
   const validateControl = (value, validation) => {

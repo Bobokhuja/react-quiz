@@ -4,6 +4,8 @@ import Button from '../../components/UI/Button/Button'
 import Input from '../../components/UI/Input/Input'
 import is from 'is_js'
 import axios from 'axios'
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import {auth} from '../../index'
 
 function Auth(props) {
 
@@ -49,7 +51,20 @@ function Auth(props) {
       password: formControls.password.value,
     }
     try {
-      const responce = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', )
+      // const responce = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', )
+      createUserWithEmailAndPassword(auth, authData.email, authData.password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } catch(error) {
+      console.log(error)
     }
   }
 

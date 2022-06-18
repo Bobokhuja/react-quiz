@@ -49,7 +49,11 @@ function Auth(props) {
       password: formControls.password.value,
     }
     try {
-      const responce = await axios.post('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=', )
+      const responce = await axios.post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=AIzaSyBKT44vf3a3nlJkNzO-OsqpmzRnMrEJ0JM')
+      console.log(responce)
+    } catch(error) {
+      console.log(error)
     }
   }
 

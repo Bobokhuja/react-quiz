@@ -5,7 +5,6 @@ import Input from '../../components/UI/Input/Input'
 import { useState } from 'react'
 import {createControl, validate, validateForm} from '../../form/formFramework'
 import Select from "../../components/UI/Select/Select"
-import axiosQuiz from '../../axios/axios-quiz'
 
 function createFormControls() {
   return {
@@ -62,17 +61,10 @@ function QuizCreator(props) {
     setFormControls(createFormControls())
   }
 
-  const createQuizHandler = async event => {
+  const createQuizHandler = event => {
     event.preventDefault()
-    try {
-      await axiosQuiz.post('/quizzes.json', quiz)
-      setQuiz([])
-      setIsFormValid(false)
-      setRightAnswerId(1)
-      setFormControls(createFormControls())
-    } catch(error) {
-      console.log(error)
-    }
+    console.log(quiz)
+  //  TODO: server
   }
 
   const changeHandler = (value, controlName) => {
